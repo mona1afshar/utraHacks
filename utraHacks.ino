@@ -1,6 +1,6 @@
 //distance sensors
-const int UltraDistTrig = 4;
-const int UltraDistEcho = 5;
+const int ultraDistTrig = 4;
+const int ultraDistEcho = 5;
 
 //motor
 const int leftMotorForward = 6;
@@ -19,7 +19,8 @@ const int ledBack = 7; //BOTTOM LEFT
 long duration;
 int distanceCm;
 
-const int colour = 140;
+const int colour = 140; //value of black line colour
+
 void setup()
 {
   pinMode(leftMotorForward , OUTPUT);
@@ -27,8 +28,8 @@ void setup()
   pinMode(rightMotorForward, OUTPUT);
   pinMode(rightMotorBackward, OUTPUT);
 
-  pinMode(UltraDistTrig, OUTPUT);
-  pinMode(UltraDistEcho, INPUT);
+  pinMode(ultraDistTrig, OUTPUT);
+  pinMode(ultraDistEcho, INPUT);
 
   pinMode(lightDetectorRight, INPUT);
   pinMode(lightDetectorLeft, INPUT);
@@ -53,15 +54,11 @@ void loop()
 
 void detectColour() {
   //if front light detector reads white colour move backward, to return onto board
-  if (analogRead (frontLight) > (colour - 100)) {
-    moveBackward();
-    digitalWrite(ledFront, HIGH);
-    digitalWrite(ledBack, LOW);
-    digitalWrite(ledLeft, LOW);
-    digitalWrite(ledRight, LOW);
+  if (analogRead (lightDetectorLeft) > 100) {
+    moveLeft();
   }
   //if back light detector reads white light, move forward, to return to board
-  else if (analogRead (backLight) > colour) {
+  else if (analogRead (lightDetectorRight) > colour) {
     moveForward();
     digitalWrite(ledFront, LOW);
     digitalWrite(ledBack, HIGH);
@@ -88,24 +85,12 @@ void detectColour() {
 }
 //sends an ultrasound burst out of the front sensor
 int sendForwardUltrasonic() {
-  digitalWrite(frontDistTrig, LOW);
+  digitalWrite(ultraDistTrig, LOW);
   delayMicroseconds(2);
-  digitalWrite(frontDistTrig, HIGH);
+  digitalWrite(ultraDistTrig, HIGH);
   delayMicroseconds(10);
   digitalWrite(frontDistTrig, LOW);
   duration = pulseIn(frontDistEcho, HIGH);
-  distanceCm = duration * 0.034 / 2;
-  return distanceCm;
-}
-
-//sends an ultrasound burst out of the back sensor
-int sendBackwardUltrasonic() {
-  digitalWrite(backDistTrig, LOW);
-  delayMicroseconds(2);
-  digitalWrite(backDistTrig, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(backDistTrig, LOW);
-  duration = pulseIn(backDistEcho, HIGH);
   distanceCm = duration * 0.034 / 2;
   return distanceCm;
 }
