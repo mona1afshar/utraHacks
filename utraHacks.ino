@@ -1,10 +1,6 @@
-
-
 //distance sensors
-const int frontDistTrig = 4;
-const int frontDistEcho = 5;
-const int backDistTrig = 2;
-const int backDistEcho = 3;
+const int UltraDistTrig = 4;
+const int UltraDistEcho = 5;
 
 //motor
 const int leftMotorForward = 6;
@@ -12,11 +8,8 @@ const int leftMotorBackward = 9;
 const int rightMotorForward = 10;
 const int rightMotorBackward = 11;
 
-//when computer port is on left side
-const int frontLight = A0; //top right on board
-const int backLight = A2; //top left on board
-const int leftLight = A3; //bottom right on board
-const int rightLight = A5; //bottom left on board
+const int lightDetectorLeft = ;
+const int lightDetectorRight = ;
 
 const int ledRight = 8; //BOTTOM RIGHT
 const int ledLeft = 12; //TOP RIGHT
@@ -34,15 +27,11 @@ void setup()
   pinMode(rightMotorForward, OUTPUT);
   pinMode(rightMotorBackward, OUTPUT);
 
-  pinMode(frontDistTrig, OUTPUT);
-  pinMode(frontDistEcho, INPUT);
-  pinMode(backDistTrig, OUTPUT);
-  pinMode(backDistEcho, INPUT);
+  pinMode(UltraDistTrig, OUTPUT);
+  pinMode(UltraDistEcho, INPUT);
 
-  pinMode(frontLight, INPUT);
-  pinMode(leftLight, INPUT);
-  pinMode(rightLight, INPUT);
-  pinMode(backLight, INPUT);
+  pinMode(lightDetectorRight, INPUT);
+  pinMode(lightDetectorLeft, INPUT);
 
   pinMode(ledRight, OUTPUT);
   pinMode(ledLeft, OUTPUT);
@@ -125,14 +114,6 @@ int sendBackwardUltrasonic() {
 void moveForward() {
   analogWrite(rightMotorForward, 100);
   analogWrite(leftMotorForward, 140);
-  analogWrite(leftMotorBackward, 0);
-  analogWrite(rightMotorBackward, 0);
-}
-
-//moves forward quickly
-void attackForward() {
-  analogWrite(rightMotorForward, 255);
-  analogWrite(leftMotorForward, 255);
   analogWrite(leftMotorBackward, 0);
   analogWrite(rightMotorBackward, 0);
 }
