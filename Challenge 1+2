@@ -45,9 +45,9 @@ void setup() {
   pinMode(ultraDistEcho, INPUT);
 
   pinMode(lightAnalogLeft, INPUT);
-  pinMode(lightAnalogLeft, INPUT);
+  pinMode(lightAnalogRight, INPUT);
   pinMode(lightDetectorRight, INPUT);
-  pinMode(lightDetectorRight, INPUT);
+  pinMode(lightDetectorLeft, INPUT);
 
   pinMode(ledGreen, OUTPUT);
   pinMode(ledRed, OUTPUT);
