@@ -4,10 +4,10 @@ const int ultraDistEcho = 2;
 
 //Motor Pins
 int EN_A = 11;  //Enable pin for first motor
-int IN1 = 9;    //control pin for first motor
-int IN2 = 8;    //control pin for first motor
-int IN3 = 7;    //control pin for second motor
-int IN4 = 6;    //control pin for second motor
+int motor1pin1 = 9;    //control pin for first motor
+int motor1pin2 = 8;    //control pin for first motor
+int motor2pin1 = 7;    //control pin for second motor
+int motor2pin2 = 6;    //control pin for second motor
 int EN_B = 10;  //Enable pin for second motor
 
 //Initializing variables to store data
@@ -24,17 +24,15 @@ const int led = 13;  //BOTTOM RIGHT
 
 long duration;
 int distanceCm;
-const int x_pos=800 ;             //Reading the horizontal movement value
-const int y_pos=800 ;
 
 const int colour = 140;  //value of black line colour
 
 void setup() {
   pinMode(EN_A, OUTPUT);
-  pinMode(IN1, OUTPUT);
-  pinMode(IN2, OUTPUT);
-  pinMode(IN3, OUTPUT);
-  pinMode(IN4, OUTPUT);
+  pinMode(motor1pin1, OUTPUT);
+  pinMode(motor1pin2, OUTPUT);
+  pinMode(motor2pin1, OUTPUT);
+  pinMode(motor2pin2, OUTPUT);
   pinMode(EN_B, OUTPUT);
 
   pinMode(ultraDistTrig, OUTPUT);
@@ -51,45 +49,32 @@ void setup() {
 }
 void loop() {
   digitalWrite(led, HIGH);
-  motor_speed = map(20, 400, 0, 0, 255);  //Mapping the values to 0-255 to move the motor
+  // put your main code here, to run repeatedly:   
+  digitalWrite(motor1pin1, HIGH);
+  digitalWrite(motor1pin2, LOW);
 
-  if (x_pos < 400) {                           //Rotating the left motor in clockwise direction
-    motor_speed = map(x_pos, 400, 0, 0, 255);  //Mapping the values to 0-255 to move the motor
-    digitalWrite(IN1, LOW);
-    digitalWrite(IN2, HIGH);
-    analogWrite(EN_A, motor_speed);
-  }
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
+  delay(1000);
 
-  else if (x_pos > 400 && x_pos < 600) {  //Motors will not move when the joystick will be at center
-    digitalWrite(IN1, LOW);
-    digitalWrite(IN2, LOW);
-  }
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
 
-  else if (x_pos > 600) {  //Rotating the left motor in anticlockwise direction
-    motor_speed = map(x_pos, 600, 1023, 0, 255);
-    digitalWrite(IN1, HIGH);
-    digitalWrite(IN2, LOW);
-    analogWrite(EN_A, motor_speed);
-  }
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, HIGH);
+  delay(1000);
 
-  if (y_pos < 400) {  //Rotating the right motor in clockwise direction
-    motor_speed1 = map(y_pos, 400, 0, 0, 255);
-    digitalWrite(IN3, LOW);
-    digitalWrite(IN4, HIGH);
-    analogWrite(EN_B, motor_speed1);
-  }
+}
 
-  else if (y_pos > 400 && y_pos < 600) {
-    digitalWrite(IN3, LOW);
-    digitalWrite(IN4, LOW);
-  }
-
-  else if (y_pos > 600) {  //Rotating the right motor in anticlockwise direction
-    motor_speed1 = map(y_pos, 600, 1023, 0, 255);
-    digitalWrite(IN3, HIGH);
-    digitalWrite(IN4, LOW);
-    analogWrite(EN_B, motor_speed1);
-  }
+int sendForwardUltrasonic() {
+  digitalWrite(ultraDistTrig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(ultraDistTrig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(ultraDistTrig, LOW);
+  duration = pulseIn(ultraDistEcho, HIGH);
+  distanceCm = duration * 0.034 / 2;
+  return distanceCm;
 }
 
 /*void detectColour() {
