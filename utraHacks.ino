@@ -13,7 +13,7 @@ int motor2pin2 = 5;  //control pin for second motor
 int EN_B = 10;       //Enable pin for second motor
 
 //Initializing variables to store data
-int motor_speed;
+int motor_speed; // blue
 int motor_speed1;
 
 
@@ -45,8 +45,8 @@ void setup() {
   pinMode(ultraDistEcho, INPUT);
 
   pinMode(lightAnalogLeft, INPUT);
-  pinMode(lightAnalogRight, INPUT);
-  pinMode(lightDetectorLeft, INPUT);
+  pinMode(lightAnalogLeft, INPUT);
+  pinMode(lightDetectorRight, INPUT);
   pinMode(lightDetectorRight, INPUT);
 
   // pinMode(ledGreen, OUTPUT);
@@ -82,9 +82,9 @@ void loop() {
 
   delay(10);
 
-  // Serial.println(analogRead(lightAnalogLeft));
+  Serial.println(analogRead(lightAnalogLeft));
   // Serial.println(analogRead(lightAnalogRight));
-  Serial.println(digitalRead(buttonPin));
+  // Serial.println(digitalRead(buttonPin));
 
   if(digitalRead(buttonPin)==0){
     buttonReleased= false;
@@ -115,11 +115,11 @@ void buttonReleasedInterrupt(){
 
 void detectColour() {
   // if light detector left reads white, move forward
-  if (analogRead(lightDetectorLeft) > 725) {
+  if (analogRead(lightDetectorLeft) > 850) {
     moveLeft();
   }
   //if light detector right reads white, move forward, to return to board
-  else if (analogRead(lightDetectorRight) > 725) {
+  else if (analogRead(lightDetectorRight) > 750) {
     moveRight();
   }
   // WORRY ABOUT CIRCLE LATER
@@ -147,16 +147,16 @@ void moveForward() {
 
 //turns right
 void moveRight() {
-  motor_speed = 100;
-  motor_speed1 = 110;
+  motor_speed = 80;
+  motor_speed1 = 0;
   // digitalWrite(ledGreen, HIGH);
   digitalWrite(ledRed, LOW);
 }
 //turns left
 void moveLeft() {
 
-  motor_speed = 110;
-  motor_speed1 = 100;
+  motor_speed = 0;
+  motor_speed1 = 80;
   digitalWrite(ledRed, HIGH);
   // digitalWrite(ledGreen, LOW);
 }
