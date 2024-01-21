@@ -23,7 +23,7 @@ const int lightDetectorRight = 8;
 const int lightAnalogRight = A1;
 
 const int ledRed = 9;
-// const int ledGreen = 13;  //BOTTOM RIGHT
+const int ledGreen = 13;  //BOTTOM RIGHT
 
 long duration;
 int distanceCm;
@@ -45,12 +45,12 @@ void setup() {
   pinMode(ultraDistEcho, INPUT);
 
   pinMode(lightAnalogLeft, INPUT);
-  pinMode(lightAnalogLeft, INPUT);
+  pinMode(lightAnalogRight, INPUT);
   pinMode(lightDetectorRight, INPUT);
-  pinMode(lightDetectorRight, INPUT);
+  pinMode(lightDetectorLeft, INPUT);
 
-  // pinMode(ledGreen, OUTPUT);
-  // pinMode(ledRed, OUTPUT);
+  pinMode(ledGreen, OUTPUT);
+  pinMode(ledRed, OUTPUT);
 
   pinMode(buttonPin, INPUT);
   attachInterrupt(digitalPinToInterrupt(buttonPin), buttonReleasedInterrupt, FALLING);
@@ -82,18 +82,30 @@ void loop() {
 
   delay(10);
 
-  Serial.println(analogRead(lightAnalogLeft));
+  // Serial.println(analogRead(lightAnalogLeft));
   // Serial.println(analogRead(lightAnalogRight));
-  // Serial.println(digitalRead(buttonPin));
+  Serial.println(digitalRead(buttonPin));
 
-  if(digitalRead(buttonPin)==0){
+  int distance = sendForwardUltrasonic();
+  if (distance <= 10) // AND LOCATION IS TO THE LEFT
+  {
+    moveRight();
+    delay(500);
+  }
+
+  /* else if (distance <= 10) // AND LOCATION IS TO THE RIGHT
+  {
+    turnRight();
+  }
+
+  /* (digitalRead(buttonPin)==0){
     buttonReleased= false;
     digitalWrite(motor1pin1, LOW);
     digitalWrite(motor1pin2, LOW);
     digitalWrite(motor2pin1, LOW);
     digitalWrite(motor2pin2, LOW);
     delay(100000);
-  }
+  }*/
 }
 
 int sendForwardUltrasonic() {
@@ -134,7 +146,7 @@ void moveForward() {
   motor_speed = 100;   // Blue wheel
   motor_speed1 = 100;  // Black wheel
   digitalWrite(ledRed, LOW);
-  // digitalWrite(ledGreen, LOW);
+  digitalWrite(ledGreen, LOW);
 }
 
 //moves backward
@@ -148,17 +160,17 @@ void moveForward() {
 //turns right
 void moveRight() {
   motor_speed = 80;
-  motor_speed1 = 0;
-  // digitalWrite(ledGreen, HIGH);
+  motor_speed1 = 50;
+  digitalWrite(ledGreen, HIGH);
   digitalWrite(ledRed, LOW);
 }
 //turns left
 void moveLeft() {
 
-  motor_speed = 0;
+  motor_speed = 50;
   motor_speed1 = 80;
   digitalWrite(ledRed, HIGH);
-  // digitalWrite(ledGreen, LOW);
+  digitalWrite(ledGreen, LOW);
 }
 
 //stops all motors
