@@ -1,6 +1,6 @@
 //distance sensors
-/* const int ultraDistTrig = 1;
-const int ultraDistEcho = 2;*/
+const int ultraDistTrig = 1;
+const int ultraDistEcho = 0;
 
 //Motor Pins
 int EN_A = 11;  //Enable pin for first motor
@@ -17,9 +17,9 @@ int motor_speed = 150;
 int motor_speed1 = 150;
 
 
-const int lightDetectorLeft = 4;
+const int lightDetectorLeft = 7;
 const int lightAnalogLeft = A0;
-const int lightDetectorRight = 3;
+const int lightDetectorRight = 8;
 const int lightAnalogRight = A1;
 
 const int led = 13;  //BOTTOM RIGHT
@@ -37,8 +37,8 @@ void setup() {
   pinMode(motor2pin2, OUTPUT);
   pinMode(EN_B, OUTPUT);
 
-  /* pinMode(ultraDistTrig, OUTPUT);
-  pinMode(ultraDistEcho, INPUT); */
+  pinMode(ultraDistTrig, OUTPUT);
+  pinMode(ultraDistEcho, INPUT); 
 
   pinMode(lightAnalogLeft, INPUT);
   pinMode(lightAnalogRight, INPUT);
@@ -49,6 +49,7 @@ void setup() {
 
   Serial.begin(9600);
 }
+
 void loop() {
   digitalWrite(led, HIGH);
   // put your main code here, to run repeatedly:   
@@ -63,16 +64,11 @@ void loop() {
 
   delay(1000);
 
-  /* digitalWrite(motor1pin1, LOW);
-  digitalWrite(motor1pin2, HIGH);
-
-  digitalWrite(motor2pin1, LOW);
-  digitalWrite(motor2pin2, HIGH);
-  delay(1000); */
+  Serial.println(sendForwardUltrasonic());
 
 }
 
-/* int sendForwardUltrasonic() {
+ int sendForwardUltrasonic() {
   digitalWrite(ultraDistTrig, LOW);
   delayMicroseconds(2);
   digitalWrite(ultraDistTrig, HIGH);
@@ -82,7 +78,7 @@ void loop() {
   distanceCm = duration * 0.034 / 2;
   return distanceCm;
 }
-*/
+
 
 /*void detectColour() {
   //if front light detector reads white colour move backward, to return onto board
