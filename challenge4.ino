@@ -69,29 +69,23 @@ void loop() {
   value_D0 = analogRead(lightDetectorRight);  // reads the digital input from the IR distance sensor
 
   // put your main code here, to run repeatedly:
-  // Blue
-  digitalWrite(motor1pin1, LOW);
-  digitalWrite(motor1pin2, HIGH);
-  analogWrite(EN_A, motor_speed);
-  // Black (70% of Blue)
-  digitalWrite(motor2pin1, HIGH);
-  digitalWrite(motor2pin2, LOW);
-  analogWrite(EN_B, motor_speed1);
 
   detectColour();
 
   delay(10);
 
   // Serial.println(analogRead(lightAnalogLeft));
-  // Serial.println(analogRead(lightAnalogRight));
-  Serial.println(digitalRead(buttonPin));
+  Serial.println(analogRead(lightAnalogRight));
 
-  /*int distance = sendForwardUltrasonic();
+  int distance = sendForwardUltrasonic();
+  // Serial.println(distance);
+
+
   if (distance <= 10) // AND LOCATION IS TO THE LEFT
   {
     moveRight();
-    delay(500);
-  }*/
+    delay(1300);
+  }
 
   /* else if (distance <= 10) // AND LOCATION IS TO THE RIGHT
   {
@@ -108,7 +102,7 @@ void loop() {
   }*/
 }
 
-/* int sendForwardUltrasonic() {
+int sendForwardUltrasonic() {
   digitalWrite(ultraDistTrig, LOW);
   delayMicroseconds(2);
   digitalWrite(ultraDistTrig, HIGH);
@@ -117,7 +111,7 @@ void loop() {
   duration = pulseIn(ultraDistEcho, HIGH);
   distanceCm = duration * 0.034 / 2;
   return distanceCm;
-}*/
+}
 
 void buttonReleasedInterrupt(){
   buttonReleased=true;
@@ -131,7 +125,7 @@ void detectColour() {
     moveLeft();
   }
   //if light detector right reads white, move forward, to return to board
-  else if (analogRead(lightDetectorRight) > 750) {
+  else if (analogRead(lightDetectorRight) > 800) {
     moveRight();
   }
   // WORRY ABOUT CIRCLE LATER
@@ -147,6 +141,14 @@ void moveForward() {
   motor_speed1 = 100;  // Black wheel
   digitalWrite(ledRed, LOW);
   digitalWrite(ledGreen, LOW);
+  // Blue
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
+  analogWrite(EN_A, motor_speed);
+  // Black (70% of Blue)
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
+  analogWrite(EN_B, motor_speed1);
 }
 
 //moves backward
@@ -159,18 +161,37 @@ void moveForward() {
 
 //turns right
 void moveRight() {
-  motor_speed = 80;
-  motor_speed1 = 50;
+  motor_speed = 100;
+  motor_speed1 = 100;
   digitalWrite(ledGreen, HIGH);
   digitalWrite(ledRed, LOW);
+
+  // Blue
+  digitalWrite(motor1pin1, HIGH);
+  digitalWrite(motor1pin2, LOW);
+  analogWrite(EN_A, motor_speed);
+  // Black (70% of Blue)
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
+  analogWrite(EN_B, motor_speed1);
 }
 //turns left
 void moveLeft() {
 
-  motor_speed = 50;
-  motor_speed1 = 80;
+  motor_speed = 100;
+  motor_speed1 = 100;
   digitalWrite(ledRed, HIGH);
   digitalWrite(ledGreen, LOW);
+  // Blue
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
+  analogWrite(EN_A, motor_speed);
+  // Black (70% of Blue)
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, HIGH);
+  analogWrite(EN_B, motor_speed1);
+
+  
 }
 
 //stops all motors
